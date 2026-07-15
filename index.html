@@ -1,1040 +1,833 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Victoria Kashlina — engineering, quiet</title>
-  <meta name="description"
-    content="Engineering leader with an eye for quiet, capable people. Mobile and platform. Currently building an iOS app about moving to Japan." />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
-    rel="stylesheet" />
-
-  <style>
-    :root {
-      --ink: #0a0a0e;
-      --ink-2: #12131a;
-      --ink-3: #1a1c26;
-      --moon: #f0ede6;
-      --moon-dim: #c8c5bb;
-      --moon-faint: #8f8c82;
-      --sakura: #d4a5a5;
-      --sakura-dim: #7a5555;
-      --cyan: #6ab3c9;
-      --line: rgba(232, 230, 224, 0.08);
-      --line-2: rgba(232, 230, 224, 0.14);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--ink);
-      color: var(--moon);
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 300;
-      font-size: 19px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 10%, rgba(106, 179, 201, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(212, 165, 165, 0.04) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      opacity: 0.5;
-      pointer-events: none;
-      z-index: 1;
-      mix-blend-mode: overlay;
-    }
-
-    main {
-      position: relative;
-      z-index: 2;
-    }
-
-    .kana-rail {
-      position: fixed;
-      top: 0;
-      right: 24px;
-      height: 100vh;
-      width: 20px;
-      font-family: 'Zen Old Mincho', serif;
-      font-size: 13px;
-      color: var(--moon-faint);
-      writing-mode: vertical-rl;
-      letter-spacing: 0.6em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 3;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .wrap {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    nav {
-      position: fixed;
-      top: 32px;
-      left: 32px;
-      z-index: 10;
-      display: flex;
-      gap: 24px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      mix-blend-mode: normal;
-    }
-
-    nav a {
-      color: inherit;
-      text-decoration: none;
-      padding-bottom: 2px;
-      border-bottom: 1px solid transparent;
-      transition: color 0.3s ease, border-color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: var(--sakura);
-      border-bottom-color: var(--sakura-dim);
-    }
-
-    .hero {
-      min-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 140px 0 100px;
-    }
-
-    .hero-mark {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      color: var(--moon-dim);
-      text-transform: uppercase;
-      margin-bottom: 40px;
-    }
-
-    .hero-mark::before {
-      content: '';
-      display: inline-block;
-      width: 32px;
-      height: 1px;
-      background: var(--moon-dim);
-      vertical-align: middle;
-      margin-right: 16px;
-    }
-
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(48px, 8vw, 96px);
-      line-height: 1;
-      letter-spacing: -0.02em;
-      margin-bottom: 32px;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--sakura);
-      font-weight: 300;
-    }
-
-    .hero-sub {
-      font-size: 21px;
-      color: var(--moon-dim);
-      max-width: 560px;
-      line-height: 1.5;
-      font-style: italic;
-      font-weight: 300;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 32px;
-      margin-top: 64px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      flex-wrap: wrap;
-    }
-
-    .hero-meta span::before {
-      content: '◆';
-      margin-right: 8px;
-      color: var(--sakura-dim);
-      font-size: 8px;
-      vertical-align: middle;
-    }
-
-    section {
-      padding: 100px 0;
-      position: relative;
-    }
-
-    section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 32px;
-      right: 32px;
-      height: 1px;
-      background: var(--line);
-    }
-
-    .section-mark {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.35em;
-      color: var(--sakura);
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .section-mark::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--sakura-dim);
-    }
-
-    .section-mark .num {
-      display: none;
-    }
-
-    h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(28px, 3.8vw, 38px);
-      line-height: 1.15;
-      letter-spacing: -0.005em;
-      margin-bottom: 56px;
-      max-width: 560px;
-      color: var(--moon);
-    }
-
-    h2 em {
-      color: var(--sakura);
-      font-style: italic;
-    }
-
-    .about p {
-      margin-bottom: 24px;
-      max-width: 640px;
-    }
-
-    .about p:first-of-type::first-letter {
-      font-family: 'Zen Old Mincho', serif;
-      font-size: 60px;
-      float: left;
-      line-height: 0.9;
-      margin: 8px 12px 0 0;
-      color: var(--sakura);
-      font-weight: 400;
-    }
-
-    .about .pull {
-      font-style: italic;
-      color: var(--moon);
-      font-size: 24px;
-      line-height: 1.55;
-      border-left: 1px solid var(--sakura-dim);
-      padding-left: 32px;
-      margin: 56px 0;
-      max-width: 540px;
-    }
-
-    .now-list {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-      max-width: 640px;
-    }
-
-    .now-item {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 24px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .now-item:last-child {
-      border-bottom: none;
-    }
-
-    .now-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      padding-top: 8px;
-    }
-
-    .now-content h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 24px;
-      margin-bottom: 8px;
-      color: var(--moon);
-    }
-
-    .now-content p {
-      color: var(--moon-dim);
-      font-size: 17px;
-      line-height: 1.55;
-    }
-
-    .now-updated {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--moon-faint);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-top: 40px;
-    }
-
-    .work {
-      display: flex;
-      flex-direction: column;
-      gap: 96px;
-      max-width: 560px;
-    }
-
-    .chapter {
-      position: relative;
-      padding-left: 0;
-    }
-
-    .chapter-num {
-      display: inline;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 32px;
-      color: var(--sakura-dim);
-      font-weight: 300;
-      margin-right: 12px;
-      vertical-align: baseline;
-    }
-
-    .chapter-when {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      margin-bottom: 16px;
-    }
-
-    .chapter h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 32px;
-      line-height: 1.15;
-      margin-bottom: 24px;
-      color: var(--moon);
-      letter-spacing: -0.005em;
-    }
-
-    .chapter p {
-      color: var(--moon-dim);
-      margin-bottom: 18px;
-      max-width: 520px;
-    }
-
-    .chapter .quiet {
-      font-style: italic;
-      color: var(--moon-faint);
-      font-size: 16px;
-      line-height: 1.7;
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-      max-width: 520px;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      max-width: 720px;
-    }
-
-    .project {
-      padding: 36px;
-      border: 1px solid var(--line-2);
-      background: linear-gradient(180deg, rgba(26, 28, 38, 0.5) 0%, rgba(18, 19, 26, 0.15) 100%);
-      transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project:hover {
-      transform: translateY(-2px);
-    }
-
-    .project::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle at top right, rgba(212, 165, 165, 0.15) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .project:hover {
-      border-color: var(--sakura-dim);
-    }
-
-    .project:hover::before {
-      opacity: 1;
-    }
-
-    .project-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--sakura);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .project-status .dot {
-      width: 6px;
-      height: 6px;
-      background: var(--sakura);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--sakura);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.4;
-      }
-    }
-
-    .project h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 26px;
-      margin-bottom: 12px;
-    }
-
-    .project p {
-      color: var(--moon-dim);
-      font-size: 17px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-    }
-
-    .project-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .project-meta a {
-      color: var(--cyan);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s ease;
-    }
-
-    .project-meta a:hover {
-      border-color: var(--cyan);
-    }
-
-    .thoughts {
-      max-width: 640px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .thought {
-      padding: 24px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .thought:last-child {
-      border-bottom: none;
-    }
-
-    .thought .date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-      margin-bottom: 8px;
-    }
-
-    .thought h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 22px;
-      color: var(--moon);
-      margin-bottom: 8px;
-    }
-
-    .thought p {
-      color: var(--moon-dim);
-      font-size: 16px;
-    }
-
-    .contact-block {
-      max-width: 640px;
-    }
-
-    .contact-block p {
-      font-size: 22px;
-      font-style: italic;
-      color: var(--moon-dim);
-      margin-bottom: 32px;
-      line-height: 1.5;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .contact-links a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--moon);
-      text-decoration: none;
-      padding: 4px 0;
-      border-bottom: 1px solid var(--line);
-      transition: color 0.3s ease, border-color 0.3s ease;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .contact-links a:hover {
-      color: var(--sakura);
-      border-color: var(--sakura-dim);
-    }
-
-    .contact-links a::after {
-      content: '→';
-      opacity: 0.6;
-      transition: transform 0.3s ease;
-    }
-
-    .contact-links a:hover::after {
-      transform: translateX(4px);
-    }
-
-    footer {
-      padding: 60px 0 40px;
-      border-top: 1px solid var(--line);
-      text-align: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--moon-faint);
-    }
-
-    footer .bunny {
-      font-family: 'Zen Old Mincho', serif;
-      font-size: 20px;
-      color: var(--sakura-dim);
-      margin-bottom: 8px;
-      letter-spacing: 0.2em;
-    }
-
-    @media (max-width: 640px) {
-      body {
-        font-size: 17px;
-      }
-
-      .wrap {
-        padding: 0 24px;
-      }
-
-      nav {
-        left: 24px;
-        top: 20px;
-        gap: 14px;
-        font-size: 10px;
-      }
-
-      .kana-rail {
-        display: none;
-      }
-
-      section {
-        padding: 80px 0;
-      }
-
-      .now-item {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .chapter {
-        padding-left: 0;
-      }
-
-      .hero {
-        padding: 100px 0 60px;
-      }
-
-      .hero-meta {
-        gap: 20px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-
-      html {
-        scroll-behavior: auto;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Victoria Kashlina — engineering, quiet</title>
+<meta name="description" content="Engineering leader with an eye for quiet, capable people. Mobile and platform. Currently building an iOS app about moving to Japan." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --ink: #0a0a0e;
+    --ink-2: #12131a;
+    --ink-3: #1a1c26;
+    --moon: #f0ede6;
+    --moon-dim: #c8c5bb;
+    --moon-faint: #8f8c82;
+    --sakura: #d4a5a5;
+    --sakura-dim: #7a5555;
+    --cyan: #6ab3c9;
+    --line: rgba(232, 230, 224, 0.08);
+    --line-2: rgba(232, 230, 224, 0.14);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--moon);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(106, 179, 201, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(212, 165, 165, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .kana-rail {
+    position: fixed;
+    top: 0;
+    right: 24px;
+    height: 100vh;
+    width: 20px;
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 13px;
+    color: var(--moon-faint);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 32px; }
+
+  nav {
+    position: fixed;
+    top: 32px;
+    left: 32px;
+    z-index: 10;
+    display: flex;
+    gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+  }
+  nav a {
+    color: inherit;
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  nav a:hover {
+    color: var(--sakura);
+    border-bottom-color: var(--sakura-dim);
+  }
+
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 0 100px;
+  }
+  .hero-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--moon-dim);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .hero-mark::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--moon-dim);
+    vertical-align: middle;
+    margin-right: 16px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+  .hero h1 em { font-style: italic; color: var(--sakura); font-weight: 300; }
+  .hero-sub {
+    font-size: 21px;
+    color: var(--moon-dim);
+    max-width: 560px;
+    line-height: 1.5;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+    flex-wrap: wrap;
+  }
+  .hero-meta span::before {
+    content: '◆';
+    margin-right: 8px;
+    color: var(--sakura-dim);
+    font-size: 8px;
+    vertical-align: middle;
+  }
+
+  section { padding: 100px 0; position: relative; }
+  section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: var(--line);
+  }
+  .section-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--sakura);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-mark::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--sakura-dim);
+  }
+  .section-mark .num { display: none; }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(28px, 3.8vw, 38px);
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    margin-bottom: 56px;
+    max-width: 560px;
+    color: var(--moon);
+  }
+  h2 em { color: var(--sakura); font-style: italic; }
+
+  .about p { margin-bottom: 24px; max-width: 100%; }
+  .about p:first-of-type::first-letter {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 60px;
+    float: left;
+    line-height: 0.9;
+    margin: 8px 12px 0 0;
+    color: var(--sakura);
+    font-weight: 400;
+  }
+  .about .pull {
+    font-style: italic;
+    color: var(--moon);
+    font-size: 24px;
+    line-height: 1.55;
+    border-left: 1px solid var(--sakura-dim);
+    padding-left: 32px;
+    margin: 56px 0;
+    max-width: 100%;
+  }
+
+  .now-list { display: flex; flex-direction: column; gap: 32px; max-width: 100%; }
+  .now-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .now-item:last-child { border-bottom: none; }
+  .now-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+    padding-top: 8px;
+  }
+  .now-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--moon);
+  }
+  .now-content p { color: var(--moon-dim); font-size: 17px; line-height: 1.55; }
+  .now-updated {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--moon-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 40px;
+  }
+
+  .work { display: flex; flex-direction: column; gap: 96px; max-width: 100%; }
+  .chapter { position: relative; padding-left: 0; }
+  .chapter-num {
+    display: inline;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--sakura-dim);
+    font-weight: 300;
+    margin-right: 12px;
+    vertical-align: baseline;
+  }
+  .chapter-when {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+    margin-bottom: 16px;
+  }
+  .chapter h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    color: var(--moon);
+    letter-spacing: -0.005em;
+  }
+  .chapter p {
+    color: var(--moon-dim);
+    margin-bottom: 18px;
+    max-width: 100%;
+  }
+  .chapter .quiet {
+    font-style: italic;
+    color: var(--moon-faint);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    max-width: 100%;
+  }
+
+  .projects { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 100%; }
+  .project {
+    padding: 36px;
+    border: 1px solid var(--line-2);
+    background: linear-gradient(180deg, rgba(26, 28, 38, 0.5) 0%, rgba(18, 19, 26, 0.15) 100%);
+    transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .project:hover { transform: translateY(-2px); border-color: var(--sakura-dim); }
+  .project::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at top right, rgba(212, 165, 165, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .project:hover::before { opacity: 1; }
+  .project-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sakura);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .project-status .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--sakura);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--sakura);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .project h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 26px; margin-bottom: 12px; }
+  .project p { color: var(--moon-dim); font-size: 17px; line-height: 1.55; margin-bottom: 16px; }
+  .project-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .project-meta a {
+    color: var(--cyan);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  .project-meta a:hover { border-color: var(--cyan); }
+
+  .thoughts { max-width: 100%; display: flex; flex-direction: column; gap: 24px; }
+  .thought { padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .thought:last-child { border-bottom: none; }
+  .thought .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+    margin-bottom: 8px;
+  }
+  .thought h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--moon);
+    margin-bottom: 8px;
+  }
+  .thought p { color: var(--moon-dim); font-size: 16px; }
+
+  .contact-block { max-width: 100%; }
+  .contact-block p {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--moon-dim);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moon);
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .contact-links a:hover { color: var(--sakura); border-color: var(--sakura-dim); }
+  .contact-links a::after { content: '→'; opacity: 0.6; transition: transform 0.3s ease; }
+  .contact-links a:hover::after { transform: translateX(4px); }
+
+  footer {
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--moon-faint);
+  }
+  footer .bunny {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 20px;
+    color: var(--sakura-dim);
+    margin-bottom: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    .wrap { padding: 0 24px; }
+    nav { left: 24px; top: 20px; gap: 14px; font-size: 10px; }
+    .kana-rail { display: none; }
+    section { padding: 80px 0; }
+    .now-item { grid-template-columns: 1fr; gap: 8px; }
+    .chapter { padding-left: 0; }
+    .hero { padding: 100px 0 60px; }
+    .hero-meta { gap: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
-
 <body>
 
-  <div class="kana-rail">影 と 光</div>
+<div class="kana-rail">影 と 光</div>
 
-  <nav>
-    <a href="#about">about</a>
-    <a href="#now">now</a>
-    <a href="#work">work</a>
-    <a href="#projects">projects</a>
-    <a href="#contact">contact</a>
-  </nav>
+<nav>
+  <a href="#about">about</a>
+  <a href="#now">now</a>
+  <a href="#work">work</a>
+  <a href="#projects">projects</a>
+  <a href="#contact">contact</a>
+</nav>
 
-  <main>
+<main>
 
-    <section class="hero">
-      <div class="wrap">
-        <div class="hero-mark">Victoria Kashlina</div>
-        <h1>Engineering, <em>quietly</em>.</h1>
-        <p class="hero-sub">
-          Nine years leading mobile and platform teams.
-          Interested in the people who wouldn't push themselves forward,
-          and in what it means to build something with care.
-        </p>
-        <div class="hero-meta">
-          <span>Moscow → Tokyo</span>
-          <span>Open to remote / relocation</span>
-          <span>Available now</span>
-        </div>
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-mark">Victoria Kashlina</div>
+      <h1>Engineering, <em>quietly</em>.</h1>
+      <p class="hero-sub">
+        Nine years leading mobile and platform teams.
+        Interested in the people who wouldn't push themselves forward,
+        and in what it means to build something with care.
+      </p>
+      <div class="hero-meta">
+        <span>Moscow → Tokyo</span>
+        <span>Open to remote / relocation</span>
+        <span>Available now</span>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="about" class="about">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">I</span> Origin</div>
-        <h2>I learned people <em>through text</em> before I learned them in rooms.</h2>
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="section-mark">Origin</div>
+      <h2>I learned people <em>through text</em> before I learned them in rooms.</h2>
 
-        <p>
-          In my teens I lived in chats — the kind of quiet, always-on world that
-          introverts built for themselves before it was called anything.
-          Reading between someone's messages, noticing what they didn't say,
-          catching the pause before the reply — these became the first
-          instruments I learned to use.
-        </p>
+      <p>
+        In my teens I lived in chats — the kind of quiet, always-on world that
+        introverts built for themselves before it was called anything.
+        Reading between someone's messages, noticing what they didn't say,
+        catching the pause before the reply — these became the first
+        instruments I learned to use.
+      </p>
 
-        <p>
-          Later I became an engineer. iOS at IBM, then Sberbank, then leading
-          mobile at SberDevices, then platform teams at Yandex Eats, then
-          digital banking at MTS. The formal path is on
-          <a style="color: var(--cyan); text-decoration: none; border-bottom: 1px solid var(--cyan);"
-            href="https://linkedin.com/in/victoriakashlina">LinkedIn</a>.
-          The real path is that the same instrument kept working — reading
-          the pause between what a team says and what a team means.
-        </p>
+      <p>
+        Later I became an engineer. iOS at IBM, then Sberbank, then leading
+        mobile at SberDevices, then platform teams at Yandex Eats, then
+        digital banking at MTS. The formal path is on
+        <a style="color: var(--cyan); text-decoration: none; border-bottom: 1px solid var(--cyan);" href="https://linkedin.com/in/victoriakashlina">LinkedIn</a>.
+        The real path is that the same instrument kept working — reading
+        the pause between what a team says and what a team means.
+      </p>
 
-        <p class="pull">
-          Some of the most useful work I've done was noticing a quiet,
-          capable colleague who wouldn't put themselves forward, and
-          spending a few months helping them become visible.
-        </p>
+      <p class="pull">
+        Some of the most useful work I've done was noticing a quiet,
+        capable colleague who wouldn't put themselves forward, and
+        spending a few months helping them become visible.
+      </p>
 
-        <p>
-          I care about the questions the field is beginning to ask — about
-          consciousness, empathy, and what these systems we're building
-          actually are. I care about Japan, dark beauty, careful craft,
-          and the idea that a thing worth making is worth making slowly.
-        </p>
-      </div>
-    </section>
+      <p>
+        I care about the questions the field is beginning to ask — about
+        consciousness, empathy, and what these systems we're building
+        actually are. I care about Japan, dark beauty, careful craft,
+        and the idea that a thing worth making is worth making slowly.
+      </p>
+    </div>
+  </section>
 
-    <section id="now">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">II</span> Now</div>
-        <h2>What I'm actually doing this week.</h2>
+  <section id="now">
+    <div class="wrap">
+      <div class="section-mark">Now</div>
+      <h2>What I'm actually doing this week.</h2>
 
-        <div class="now-list">
-          <div class="now-item">
-            <div class="now-label">Building</div>
-            <div class="now-content">
-              <h3>ComeToJapan — iOS app</h3>
-              <p>
-                Swift, SwiftUI. Solo. Currently in App Store review. A quiet
-                travel companion for people considering moving to Japan —
-                which is a category of one, and also very much me.
-              </p>
-            </div>
-          </div>
-
-          <div class="now-item">
-            <div class="now-label">Making</div>
-            <div class="now-content">
-              <h3>Choker — first wearable done</h3>
-              <p>
-                A dark, quiet piece — my first finished object in a longer
-                exploration of wearable things. Half armor, half whisper.
-              </p>
-            </div>
-          </div>
-
-          <div class="now-item">
-            <div class="now-label">Designing</div>
-            <div class="now-content">
-              <h3>Rabbit Ear Tag — earring in progress</h3>
-              <p>
-                A cyberpunk earring: SLS-printed nylon, OLED display,
-                vertical kanji rain resolving into a pixel rabbit that
-                says <em>follow me</em>. Still on the bench.
-              </p>
-            </div>
-          </div>
-
-          <div class="now-item">
-            <div class="now-label">Looking for</div>
-            <div class="now-content">
-              <h3>Engineering leadership role</h3>
-              <p>
-                Senior Engineering Manager / Director. Mobile or platform.
-                Remote or relocation-friendly, Tokyo preferred. Product
-                companies that take craft and people seriously.
-              </p>
-            </div>
-          </div>
-
-          <div class="now-item">
-            <div class="now-label">Reading</div>
-            <div class="now-content">
-              <h3>Brockman — <em>What to Think About Machines That Think</em></h3>
-              <p>
-                Rereading the 2015 essays now that the questions are no
-                longer hypothetical. Some hold up. Some read as prophecy.
-                Some are still open.
-              </p>
-            </div>
+      <div class="now-list">
+        <div class="now-item">
+          <div class="now-label">Building</div>
+          <div class="now-content">
+            <h3>ComeToJapan — iOS app</h3>
+            <p>
+              Swift, SwiftUI. Solo. Currently in App Store review. A quiet
+              travel companion for people considering moving to Japan —
+              which is a category of one, and also very much me.
+            </p>
           </div>
         </div>
 
-        <p class="now-updated">Updated · July 2026</p>
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">III</span> Work</div>
-        <h2>Four chapters. The formal résumé is elsewhere.</h2>
-
-        <div class="work">
-
-          <div class="chapter">
-            <div class="chapter-when">2017 – 2020 · IBM, Sberbank</div>
-            <h3><span class="chapter-num">i.</span>Craft</h3>
+        <div class="now-item">
+          <div class="now-label">Making</div>
+          <div class="now-content">
+            <h3>Choker — first wearable done</h3>
             <p>
-              iOS engineer on Sberbank Online — the app serving twelve
-              million people. Objective-C giving way to Swift. Open-source
-              contributions to OCMock. First conference talks. First article
-              on Habr, which is still cited when people search "custom
-              instruments" in Russian.
-            </p>
-            <p class="quiet">
-              What I learned: the craft rewards patience. And the best way
-              to help another engineer is to write the résumé they wouldn't
-              write for themselves.
+              A dark, quiet piece — my first finished object in a longer
+              exploration of wearable things. Half armor, half whisper.
             </p>
           </div>
-
-          <div class="chapter">
-            <div class="chapter-when">2020 – 2022 · SberDevices</div>
-            <h3><span class="chapter-num">ii.</span>Building from zero</h3>
-            <p>
-              iOS team lead, then Head of Mobile for Smart Home. Fifteen
-              people. Shipped the Smart Home feature from kickoff to App
-              Store in 3.5 months. Then shipped the standalone Salute
-              Smart Home app on both stores. Vendor exits, sanctions,
-              supply disruption — sourced replacements without breaking
-              the roadmap.
-            </p>
-            <p class="quiet">
-              What I learned: building something from nothing is easier
-              than fixing something that's frozen. The hardest part is
-              hiring the first five people right.
-            </p>
-          </div>
-
-          <div class="chapter">
-            <div class="chapter-when">2023 – 2024 · Yandex Eats</div>
-            <h3><span class="chapter-num">iii.</span>Platform</h3>
-            <p>
-              Three platform teams — mobile, web, automation — supporting
-              food delivery across CIS, Africa, Russia. Cut native release
-              cycles in half. Moved web to daily modular releases. Raised
-              regression automation to 70%. Founded the Mobile Performance
-              Guild, which is still active after I left.
-            </p>
-            <p class="quiet">
-              What I learned: the platform you build for other teams is
-              judged not by its features but by the pauses it removes
-              from their day.
-            </p>
-          </div>
-
-          <div class="chapter">
-            <div class="chapter-when">2024 – 2026 · MTS Bank, Transneft</div>
-            <h3><span class="chapter-num">iv.</span>Reckoning</h3>
-            <p>
-              Tech lead of digital banking at MTS — a cross-functional org
-              of around 170 across eight teams — through a period of high
-              external pressure and heightened security requirements.
-              Introduced AI tooling that cut routine engineering effort by
-              20-30%. Then Head of Development at Transneft, building
-              processes for a 45-person team from ground up in nine months.
-            </p>
-            <p class="quiet">
-              What I learned: a well-argued problem isn't automatically a
-              solvable one. Some problems are structural, and part of
-              leadership is recognizing that pattern early enough to save
-              your energy.
-            </p>
-          </div>
-
         </div>
-      </div>
-    </section>
 
-    <section id="projects">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">IV</span> Projects</div>
-        <h2>Things I've made or am making.</h2>
-
-        <div class="projects">
-
-          <div class="project">
-            <div class="project-status"><span class="dot"></span>In App Store review</div>
-            <h3>ComeToJapan</h3>
+        <div class="now-item">
+          <div class="now-label">Designing</div>
+          <div class="now-content">
+            <h3>Rabbit Ear Tag — earring in progress</h3>
             <p>
-              iOS app for people planning a move to Japan. Written solo
-              in Swift and SwiftUI, with AI as a pair. Currently free
-              (a story for another time). The category is small, but
-              it's the app I wanted to exist.
+              A cyberpunk earring: SLS-printed nylon, OLED display,
+              vertical kanji rain resolving into a pixel rabbit that
+              says <em>follow me</em>. Still on the bench.
             </p>
-            <div class="project-meta">
-              <span>Swift · SwiftUI</span>
-              <span>2026</span>
-            </div>
           </div>
-
-          <div class="project">
-            <div class="project-status" style="color: var(--moon-dim);">Finished · 2026</div>
-            <h3>Choker</h3>
-            <p>
-              My first finished wearable — a dark, quiet piece. The start
-              of a longer exploration of wearable things.
-            </p>
-            <div class="project-meta">
-              <span>Wearable · Craft</span>
-              <span>2026</span>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="project-status"><span class="dot"></span>In progress</div>
-            <h3>Rabbit Ear Tag — earring</h3>
-            <p>
-              An OLED earring: SLS-printed matte black nylon, small
-              display running an animation of kanji rain that resolves
-              momentarily into a pixel rabbit and the words
-              <em>follow me</em>. Half armor, half whisper.
-            </p>
-            <div class="project-meta">
-              <span>SLS PA12 · OLED · Firmware</span>
-              <span>52mm × 14mm</span>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="project-status" style="color: var(--moon-dim);">Archived · live</div>
-            <h3>Habr — Sberbank Engineering Blog</h3>
-            <p>
-              Four articles on iOS test infrastructure and performance
-              profiling with Xcode Custom Instruments. The most-read one
-              ("How we test Sberbank Online on iOS") crossed 8,600 views
-              and is still cited.
-            </p>
-            <div class="project-meta">
-              <a href="https://habr.com/ru/users/victoriaqb/articles/" target="_blank">Read →</a>
-              <span>2018 – 2020</span>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="project-status" style="color: var(--moon-dim);">Talk · 2019</div>
-            <h3>Heisenbug — Xcode Instruments</h3>
-            <p>
-              Co-presented with a colleague at Heisenbug 2019 Moscow.
-              The talk that became the first step of a path that ended
-              with him working at Apple on the very tooling we spoke
-              about. Which is my favorite kind of outcome.
-            </p>
-            <div class="project-meta">
-              <a href="https://www.youtube.com/watch?v=KacMZIytq-M" target="_blank">Watch →</a>
-              <span>YouTube</span>
-            </div>
-          </div>
-
         </div>
-      </div>
-    </section>
 
-    <section id="thoughts">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">V</span> Notes</div>
-        <h2>Small things I'm thinking about.</h2>
-
-        <div class="thoughts">
-          <div class="thought">
-            <div class="date">Draft</div>
-            <h4>On quiet colleagues</h4>
+        <div class="now-item">
+          <div class="now-label">Looking for</div>
+          <div class="now-content">
+            <h3>Engineering leadership role</h3>
             <p>
-              The most useful thing a senior person can do is notice a
-              junior one who won't put themselves forward, and spend
-              attention on them anyway. This scales badly. It's still
-              worth it.
+              Senior Engineering Manager / Director. Mobile or platform.
+              Remote or relocation-friendly, Tokyo preferred. Product
+              companies that take craft and people seriously.
             </p>
           </div>
+        </div>
 
-          <div class="thought">
-            <div class="date">Draft</div>
-            <h4>Well-argued isn't the same as solvable</h4>
+        <div class="now-item">
+          <div class="now-label">Reading</div>
+          <div class="now-content">
+            <h3>Brockman — <em>What to Think About Machines That Think</em></h3>
             <p>
-              Sometimes the problem is not that the argument is wrong.
-              The problem is that fixing it would require someone to
-              admit their own earlier hiring call was off. That's a
-              different kind of problem.
-            </p>
-          </div>
-
-          <div class="thought">
-            <div class="date">Draft</div>
-            <h4>Dark beauty as a working principle</h4>
-            <p>
-              Something can be dark and considered at once. Precision in
-              tone. Restraint in ornament. Room for one clear moment of
-              softness. This is a working principle, not an aesthetic.
+              Rereading the 2015 essays now that the questions are no
+              longer hypothetical. Some hold up. Some read as prophecy.
+              Some are still open.
             </p>
           </div>
         </div>
       </div>
-    </section>
 
-    <section id="contact">
-      <div class="wrap">
-        <div class="section-mark"><span class="num">VI</span> Contact</div>
-        <h2>If any of this resonated.</h2>
+      <p class="now-updated">Updated · July 2026</p>
+    </div>
+  </section>
 
-        <div class="contact-block">
+  <section id="work">
+    <div class="wrap">
+      <div class="section-mark">Work</div>
+      <h2>Four chapters. The formal résumé is elsewhere.</h2>
+
+      <div class="work">
+
+        <div class="chapter">
+          <div class="chapter-when">2017 – 2020 · IBM, Sberbank</div>
+          <h3><span class="chapter-num">i.</span>Craft</h3>
           <p>
-            I read everything. I answer thoughtfully. If you're
-            working on something that takes people and craft seriously,
-            say hello.
+            iOS engineer on Sberbank Online — the app serving twelve
+            million people. Objective-C giving way to Swift. Open-source
+            contributions to OCMock. First conference talks. First article
+            on Habr, which is still cited when people search "custom
+            instruments" in Russian.
           </p>
+          <p class="quiet">
+            What I learned: the craft rewards patience. And the best way
+            to help another engineer is to write the résumé they wouldn't
+            write for themselves.
+          </p>
+        </div>
 
-          <div class="contact-links">
-            <a href="mailto:v.o.kashlina@gmail.com">Email · v.o.kashlina@gmail.com</a>
-            <a href="https://linkedin.com/in/victoriakashlina" target="_blank">LinkedIn</a>
-            <a href="https://t.me/kindredqb" target="_blank">Telegram · @kindredqb</a>
-            <a href="https://habr.com/ru/users/victoriaqb/" target="_blank">Habr</a>
+        <div class="chapter">
+          <div class="chapter-when">2020 – 2022 · SberDevices</div>
+          <h3><span class="chapter-num">ii.</span>Building from zero</h3>
+          <p>
+            iOS team lead, then Head of Mobile for Smart Home. Fifteen
+            people. Shipped the Smart Home feature from kickoff to App
+            Store in 3.5 months. Then shipped the standalone Salute
+            Smart Home app on both stores. Vendor exits, sanctions,
+            supply disruption — sourced replacements without breaking
+            the roadmap.
+          </p>
+          <p class="quiet">
+            What I learned: building something from nothing is easier
+            than fixing something that's frozen. The hardest part is
+            hiring the first five people right.
+          </p>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter-when">2023 – 2024 · Yandex Eats</div>
+          <h3><span class="chapter-num">iii.</span>Platform</h3>
+          <p>
+            Three platform teams — mobile, web, automation — supporting
+            food delivery across CIS, Africa, Russia. Cut native release
+            cycles in half. Moved web to daily modular releases. Raised
+            regression automation to 70%. Founded the Mobile Performance
+            Guild, which is still active after I left.
+          </p>
+          <p class="quiet">
+            What I learned: the platform you build for other teams is
+            judged not by its features but by the pauses it removes
+            from their day.
+          </p>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter-when">2024 – 2026 · MTS Bank, Transneft</div>
+          <h3><span class="chapter-num">iv.</span>Reckoning</h3>
+          <p>
+            Tech lead of digital banking at MTS — a cross-functional org
+            of around 170 across eight teams — through a period of high
+            external pressure and heightened security requirements.
+            Introduced AI tooling that cut routine engineering effort by
+            20-30%. Then Head of Development at Transneft, building
+            processes for a 45-person team from ground up in nine months.
+          </p>
+          <p class="quiet">
+            What I learned: a well-argued problem isn't automatically a
+            solvable one. Some problems are structural, and part of
+            leadership is recognizing that pattern early enough to save
+            your energy.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-mark">Projects</div>
+      <h2>Things I've made or am making.</h2>
+
+      <div class="projects">
+
+        <div class="project">
+          <div class="project-status"><span class="dot"></span>In App Store review</div>
+          <h3>ComeToJapan</h3>
+          <p>
+            iOS app for people planning a move to Japan. Written solo
+            in Swift and SwiftUI, with AI as a pair. Currently free
+            (a story for another time). The category is small, but
+            it's the app I wanted to exist.
+          </p>
+          <div class="project-meta">
+            <span>Swift · SwiftUI</span>
+            <span>2026</span>
           </div>
         </div>
+
+        <div class="project">
+          <div class="project-status" style="color: var(--moon-dim);">Finished · 2026</div>
+          <h3>Choker</h3>
+          <p>
+            My first finished wearable — a dark, quiet piece. The start
+            of a longer exploration of wearable things.
+          </p>
+          <div class="project-meta">
+            <span>Wearable · Craft</span>
+            <span>2026</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-status"><span class="dot"></span>In progress</div>
+          <h3>Rabbit Ear Tag — earring</h3>
+          <p>
+            An OLED earring: SLS-printed matte black nylon, small
+            display running an animation of kanji rain that resolves
+            momentarily into a pixel rabbit and the words
+            <em>follow me</em>. Half armor, half whisper.
+          </p>
+          <div class="project-meta">
+            <span>SLS PA12 · OLED · Firmware</span>
+            <span>52mm × 14mm</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-status" style="color: var(--moon-dim);">Archived · live</div>
+          <h3>Habr — Sberbank Engineering Blog</h3>
+          <p>
+            Four articles on iOS test infrastructure and performance
+            profiling with Xcode Custom Instruments. The most-read one
+            ("How we test Sberbank Online on iOS") crossed 8,600 views
+            and is still cited.
+          </p>
+          <div class="project-meta">
+            <a href="https://habr.com/ru/users/victoriaqb/articles/" target="_blank">Read →</a>
+            <span>2018 – 2020</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-status" style="color: var(--moon-dim);">Talk · 2019</div>
+          <h3>Heisenbug — Xcode Instruments</h3>
+          <p>
+            Co-presented with a colleague at Heisenbug 2019 Moscow.
+            The talk that became the first step of a path that ended
+            with him working at Apple on the very tooling we spoke
+            about. Which is my favorite kind of outcome.
+          </p>
+          <div class="project-meta">
+            <a href="https://www.youtube.com/watch?v=KacMZIytq-M" target="_blank">Watch →</a>
+            <span>YouTube</span>
+          </div>
+        </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      <div class="bunny">兎</div>
-      <div>© 2026 · victoriaqb.com · follow me</div>
-    </footer>
+  <section id="thoughts">
+    <div class="wrap">
+      <div class="section-mark">Notes</div>
+      <h2>Small things I'm thinking about.</h2>
 
-  </main>
+      <div class="thoughts">
+        <div class="thought">
+          <div class="date">Draft</div>
+          <h4>On quiet colleagues</h4>
+          <p>
+            The most useful thing a senior person can do is notice a
+            junior one who won't put themselves forward, and spend
+            attention on them anyway. This scales badly. It's still
+            worth it.
+          </p>
+        </div>
+
+        <div class="thought">
+          <div class="date">Draft</div>
+          <h4>Well-argued isn't the same as solvable</h4>
+          <p>
+            Sometimes the problem is not that the argument is wrong.
+            The problem is that fixing it would require someone to
+            admit their own earlier hiring call was off. That's a
+            different kind of problem.
+          </p>
+        </div>
+
+        <div class="thought">
+          <div class="date">Draft</div>
+          <h4>Dark beauty as a working principle</h4>
+          <p>
+            Something can be dark and considered at once. Precision in
+            tone. Restraint in ornament. Room for one clear moment of
+            softness. This is a working principle, not an aesthetic.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-mark">Contact</div>
+      <h2>If any of this resonated.</h2>
+
+      <div class="contact-block">
+        <p>
+          I read everything. I answer thoughtfully. If you're
+          working on something that takes people and craft seriously,
+          say hello.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:v.o.kashlina@gmail.com">Email · v.o.kashlina@gmail.com</a>
+          <a href="https://linkedin.com/in/victoriakashlina" target="_blank">LinkedIn</a>
+          <a href="https://t.me/kindredqb" target="_blank">Telegram · @kindredqb</a>
+          <a href="https://habr.com/ru/users/victoriaqb/" target="_blank">Habr</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="bunny">兎</div>
+    <div>© 2026 · victoriaqb.com · follow me</div>
+  </footer>
+
+</main>
 
 </body>
-
 </html>
